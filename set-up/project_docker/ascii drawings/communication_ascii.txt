@@ -1,0 +1,54 @@
+================================================================================
+           MCP Army: Project Communication Flow (Docker Network & APIs)
+================================================================================
+
+        +-------------------+           HTTP/JSON           +-------------------+
+        |   User / Client   |  <------------------------->  |   Orchestrator    |
+        |  (UI, CLI, API)  |    (REST API, FastAPI)        |   (FastAPI App)   |
+        +-------------------+                              +-------------------+
+                                                        
+                                | (docker network: mcpnet)
+                                v
+        +---------------------------------------------------------------+
+        |                        MCP Docker Network                     |
+        |                                                               |
+        |  +----------------+      +----------------+     +----------+  |
+        |  | Agent Service  |<---> | Agent Service  |<--->|  ...     |  |
+        |  | (Container w/  |      | (Container w/  |     |          |  |
+        |  |  FastAPI)      |      |  FastAPI)      |     |          |  |
+        |  +----------------+      +----------------+     +----------+  |
+        |        ^   ^                   ^   ^                 ^        |
+        |        |   |                   |   |                 |        |
+        |        |   |                   |   |                 |        |
+        |        |   |                   |   |                 |        |
+        |        |   +-------------------+   |                 |        |
+        |        +-----------+   +-------------+               |        |
+        |                    |   |                             |        |
+        |         +---------------------------+                |        |
+        |         |   Agent Conference Graph  |----------------+        |
+        |         |   (LangGraph, agent_graph)|                         |
+        |         +---------------------------+                         |
+        |                 |   |   |   |                                 |
+        |                 v   v   v   v                                 |
+        |         +---------------------------+                         |
+        |         |  Aggregator Node          |                         |
+        |         +---------------------------+                         |
+        +---------------------------------------------------------------+
+
+================================================================================
+Legend:
+- All agent services run as containers on the shared Docker network (mcpnet)
+- All communication is via HTTP/JSON, using standardized FastAPI `/invoke` endpoints
+- Orchestrator communicates with agents via REST API calls
+- Agents can communicate with each other (A2A) via `/invoke` (LangGraph handles routing)
+- The Agent Conference Graph (LangGraph) enables robust, all-way agent communication, aggregation, and workflow control
+- Aggregator node summarizes or arbitrates responses from all agents
+================================================================================
+API/Network Flow:
+1. User sends request to Orchestrator (API/UI/CLI)
+2. Orchestrator triggers onboarding, benchmarking, or agent workflow
+3. Orchestrator (or LangGraph) calls agent `/invoke` endpoints over Docker network
+4. Agents may call each other (A2A) for collaboration, voting, or tool use
+5. Aggregator node collects and summarizes agent responses
+6. Orchestrator returns results to user
+================================================================================

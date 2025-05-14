@@ -1,0 +1,11 @@
+usename
+supabase_replication_admin
+supabase_read_only_user
+authenticator
+pgbouncer
+supabase_auth_admin
+supabase_functions_admin
+supabase_storage_admin
+supabase_admin
+postgres
+1980_postgres

@@ -1,0 +1,9 @@
+{
+  "name": "local_file_watcher",
+  "description": "Watches local agent-resources for file changes and notifies Archon via HTTP API.",
+  "entry_point": "local_file_watcher.py",
+  "args": [],
+  "env": {},
+  "author": "cascade",
+  "tags": ["watchdog", "local", "sync", "file-watcher"]
+}

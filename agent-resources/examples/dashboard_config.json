@@ -1,0 +1,14 @@
+{
+    "\ud83e\udd16 Chat": {
+        "ai_model": "Openrouter",
+        "database": "Supabase",
+        "openrouter_api_key": "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",
+        "selected_model": "01-ai/yi-large"
+    },
+    "\ud83d\udcca Dashboard": {},
+    "\ud83d\udd77\ufe0f Crawl4AI": {
+        "ai_model": "Openrouter",
+        "openrouter_api_key": "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",
+        "selected_model": "01-ai/yi-large"
+    }
+}

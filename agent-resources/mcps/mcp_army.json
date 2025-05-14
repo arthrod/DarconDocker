@@ -1,0 +1,24 @@
+{
+  "name": "Agent Army MCP",
+  "description": "Unified MCP server exposing all subagents (GitHub, Slack, Brave, Graphiti, etc.) via the Army interface.",
+  "transport": "stdio",
+  "command": "python",
+  "args": [
+    "mcp_agent_army.py"
+  ],
+  "cwd": "../../mcp-agent-army/studio-integration-version",
+  "env": {
+    "MODEL_CHOICE": "gpt-4o-mini",
+    "BASE_URL": "https://api.openai.com/v1",
+    "LLM_API_KEY": "${LLM_API_KEY}",
+    "GITHUB_TOKEN": "${GITHUB_TOKEN}",
+    "SLACK_BOT_TOKEN": "${SLACK_BOT_TOKEN}",
+    "SLACK_TEAM_ID": "${SLACK_TEAM_ID}",
+    "FIRECRAWL_API_KEY": "${FIRECRAWL_API_KEY}",
+    "NEO4J_URI": "${NEO4J_URI}",
+    "NEO4J_USER": "${NEO4J_USER}",
+    "NEO4J_PASSWORD": "${NEO4J_PASSWORD}",
+    "OPENAI_API_KEY": "${OPENAI_API_KEY}",
+    "MODEL_NAME": "gpt-4o-mini"
+  }
+}

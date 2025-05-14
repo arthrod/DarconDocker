@@ -1,0 +1,28 @@
+# .clinerules
+# Project Intelligence, Implementation Paths, Workflow Preferences, and Decisions
+
+## Implementation Paths
+- All core orchestrator logic and agent graph code is in `darchon/`.
+- Features, onboarding, and architecture diagrams/specs are in `features/`.
+- API documentation is in `api/`, deployment guides in `deployment/`.
+- Custom tools/plugins go in `custom_tools/`.
+- Docker build contexts for agents/tools are in `docker_repos/`.
+
+## Workflow Preferences
+- Always follow memory bank lifecycle and access patterns as defined in custom-instructions.md.
+- Reference new custom/spec files in `activeContext.md` when added.
+- Use standardized FastAPI wrappers and `/invoke` endpoints for all agent containers.
+- Use docker-compose.yml as the single source of truth for agent/tool registration.
+
+## Project-Specific Decisions
+- Orchestrator platform is named `darchon`.
+- Agent logic is loaded dynamically via environment variable `AGENT_GRAPH_PATH`.
+- All agent-to-agent and orchestrator-to-agent communication is via HTTP/JSON on the Docker network `mcpnet`.
+- Agent Conference Graph (LangGraph) is used for all-way agent communication and aggregation.
+
+## Tool Usage Patterns
+- Use memory bank structure for all documentation and context management.
+- Update documentation in reverse-hierarchical order: progress → activeContext → others.
+- Add integration guides and testing strategies as the project matures.
+
+# End of .clinerules

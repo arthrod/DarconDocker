@@ -1,0 +1,17 @@
+{
+  "name": "n8n_to_pydantic_agent",
+  "description": "Convert n8n workflow JSON into a Pydantic AI agent definition.",
+  "entry_point": "agent-resources/tools/n8n_To_Pydantic_RAG.py",
+  "class": "N8nToPydanticAgentMCP",
+  "args": [
+    {
+      "name": "workflow_json",
+      "type": "json",
+      "description": "The n8n workflow as a JSON object."
+    }
+  ],
+  "returns": {
+    "type": "string",
+    "description": "The generated Pydantic AI agent code."
+  }
+}

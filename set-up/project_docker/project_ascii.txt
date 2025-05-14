@@ -1,0 +1,74 @@
+================================================================================
+                   MCP Army: Modular AI Agent System (Full Architecture)
+================================================================================
+
+                        +-------------------+
+                        |   User / UI/API   |
+                        +---------+---------+
+                                  |
+                                  v
+                        +-------------------+
+                        |   Orchestrator    |
+                        | (FastAPI Service) |
+                        +---------+---------+
+                                  |
+           +----------------------+----------------------+
+           |                      |                      |
+           v                      v                      v
+   +---------------+      +---------------+      +---------------+
+   |  Memory Bank  |      | Onboarding    |      |  Benchmarking |
+   | (Knowledge &  |      |  Logic        |      |  & Testing    |
+   |  Workflow DB) |      +-------+-------+      +-------+-------+
+   +-------+-------+              |                      |
+           |                      |                      |
+           +----------+-----------+-----------+----------+
+                      |                       |
+                      v                       v
+         +--------------------------+   +--------------------------+
+         |   docker-compose.yml      |   |  features/agent_template |
+         | (Source of Truth:        |   |  .md, .json, onboarding  |
+         |  Agent/Tool Registry)    |   |  questionnaires         |
+         +-----------+--------------+   +--------------------------+
+                     |
+                     v
+         +-------------------------------+
+         |  docker_repos/<agent>/         |
+         |  (Dockerfile, code, config)    |
+         +-------------------------------+
+                     |
+                     v
+         +-------------------------------+
+         |  Agent Container(s)            |
+         |  (FastAPI, /invoke, /health)   |
+         +-------------------------------+
+                     |
+                     v
+         +-------------------------------+
+         |   MCP Network (Docker)         |
+         +-------------------------------+
+                     |
+                     v
+         +-------------------------------+
+         |  Agent Conference Graph        |
+         |  (agent_graph.py, LangGraph)   |
+         |  - Discovers all agents        |
+         |  - All-way communication       |
+         |  - Aggregator node             |
+         +-------------------------------+
+                     |
+                     v
+         +-------------------------------+
+         |    Plug-in Agents/Tools        |
+         | (Standardized FastAPI wrapper) |
+         | (Dynamic logic via AGENT_GRAPH_PATH)
+         +-------------------------------+
+
+================================================================================
+Key Flows:
+- User interacts with Orchestrator (UI/API)
+- Orchestrator handles onboarding, agent registry, benchmarking, and memory bank
+- Agents/tools are plug-ins, registered in docker-compose.yml, and run as containers
+- All agents expose /invoke and /health endpoints (generic FastAPI wrapper)
+- Agent Conference Graph enables robust, all-way agent communication
+- Memory Bank and onboarding flows are always updated with new agents/tools
+================================================================================

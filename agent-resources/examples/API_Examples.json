@@ -1,0 +1,454 @@
+{
+  "name": "API Examples",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "a2509130-070c-4100-ae65-2c256f1c4a1e",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        800,
+        1720
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}",
+        "options": {}
+      },
+      "id": "74708f79-5dc9-49fd-af3b-35c8572156bb",
+      "name": "OpenWeather",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        940,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a weather assistant. Please describe the weather in a friendly way and use emojis.\n\nWeather data:\nCity: {{ $json.name }}\nWeather Description: {{ $json.weather[0].description }}\nTemperature: {{ $json.main.temp }}\n\"Feels like\" Temperature: {{ $json.main.feels_like }}\nHumidity: {{ $json.main.humidity }}\nWind Speed: {{ $json.wind.speed }}",
+              "role": "system"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b384bb76-6eea-451a-9e0c-3a2806dbae50",
+      "name": "Describe Weather",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.7,
+      "position": [
+        1160,
+        240
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "PI7dqswJpx1Asynn",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8f061265-ecd5-4e82-b665-9f5245d0532e",
+              "name": "Result",
+              "value": "={{ $json.message.content }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "799314fe-078b-4c2a-a4ed-15eaf00a9355",
+      "name": "Weather",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1540,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# OpenWeather Map API HTTP Request\n",
+        "height": 80,
+        "width": 758,
+        "color": 5
+      },
+      "id": "d09aa377-5f75-4961-a08f-0a8b7ab4ab3f",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        900,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "format": "imperial",
+        "cityName": "Chicago"
+      },
+      "id": "edd5bd5f-3b16-4a4c-968f-6234550dc007",
+      "name": "OpenWeatherMap",
+      "type": "n8n-nodes-base.openWeatherMap",
+      "typeVersion": 1,
+      "position": [
+        2440,
+        240
+      ],
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "AoobPcMhq7n8fgfA",
+          "name": "OpenWeatherMap account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# OpenWeather n8n Integration\n",
+        "height": 142,
+        "width": 395,
+        "color": 4
+      },
+      "id": "e5af4dc3-c762-4e54-b12d-30c1cadacbb0",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2320,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://jsonplaceholder.typicode.com",
+        "options": {}
+      },
+      "id": "968380a4-7e3b-426b-b01b-9277b646d232",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1200,
+        1060
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# JSON Placeholder API\n",
+        "height": 87,
+        "width": 418,
+        "color": 5
+      },
+      "id": "029fc2bb-4ff9-4a3d-a7b8-b6e4f7554cef",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1020,
+        920
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# Tavily Search\n",
+        "height": 83.11665831864201,
+        "width": 418,
+        "color": 5
+      },
+      "id": "8c8d91f2-2732-46ac-ada6-e8405bc2b65e",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1060,
+        1580
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.tavily.com/search",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"api_key\": \"YOUR-API-KEY\",\n    \"query\": \"SEARCH-QUERY\",\n    \"search_depth\": \"basic\",\n    \"include_answer\": true,\n    \"topic\": \"news\",\n    \"include_raw_content\": true,\n    \"max_results\": 3\n} ",
+        "options": {}
+      },
+      "id": "94f79557-318b-4bab-a6b6-2bde994ee5be",
+      "name": "Search Internet",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1040,
+        1720
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6f609a6a-3d3d-47a0-95de-f48c25cf7d9a",
+              "name": "Result",
+              "value": "={{ $json.message.content }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5626aae8-81b4-4c91-afba-ab1ae71cb919",
+      "name": "Summary",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1640,
+        1720
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# n8n Integrations\n",
+        "height": 83.11665831864201,
+        "width": 418,
+        "color": 5
+      },
+      "id": "ff1980f3-44cb-45a2-a498-54adcedb9c14",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1140,
+        2360
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "d",
+        "subject": "d",
+        "message": "d",
+        "options": {}
+      },
+      "id": "5c0018eb-0753-45e8-b70f-6faa2e7eeb4f",
+      "name": "Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1180,
+        2500
+      ],
+      "webhookId": "f223c867-c45e-46f3-be0a-d4473f02eb60",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "PblbJue2OKr80hIY",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "base": {
+          "__rl": true,
+          "value": "appgwOe40BG4DmcPx",
+          "mode": "list",
+          "cachedResultName": "LinkedIn Posting",
+          "cachedResultUrl": "https://airtable.com/appgwOe40BG4DmcPx"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblaHqLhwn5Jgidfu",
+          "mode": "list",
+          "cachedResultName": "Campaigns",
+          "cachedResultUrl": "https://airtable.com/appgwOe40BG4DmcPx/tblaHqLhwn5Jgidfu"
+        },
+        "id": "dfds",
+        "options": {}
+      },
+      "id": "21bc6472-2f48-4401-b8d4-3bb0785e702d",
+      "name": "Airtable",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1400,
+        2500
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "dMVCR0NWnvcLapoE",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "documentId": {
+          "__rl": true,
+          "value": "15FOh4i1wwy7zv-k4foZc8ubMkMLz_-BibPJKTZ-IziM",
+          "mode": "list",
+          "cachedResultName": "Invoice Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15FOh4i1wwy7zv-k4foZc8ubMkMLz_-BibPJKTZ-IziM/edit?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "id": "d5eb8b2e-1534-4459-ade0-e0cc221d0a02",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1180,
+        2700
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "DKJyEjZyGh00GFMv",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "addressbook#contacts@group.v.calendar.google.com",
+          "mode": "list",
+          "cachedResultName": "Birthdays"
+        },
+        "start": "2024-12-05T00:00:00",
+        "end": "2024-12-17T00:00:00",
+        "additionalFields": {}
+      },
+      "id": "29de49e2-632f-4a32-9f7d-81967f12f591",
+      "name": "Google Calendar",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.2,
+      "position": [
+        1400,
+        2700
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "HYMNtkm0oglf42QP",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Summarize the article content from the 3 given articles into a concise paragraph. Use a professional tone.\n\nContent:\nArticle 1:\n{{ $json.results[0].raw_content }}\n\nArticle 2:\n{{ $json.results[1].raw_content }}\n\nArticle 3;\n{{ $json.results[2].raw_content }}",
+              "role": "system"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a9687088-d9ff-4183-aa66-b6cd2aa44d7f",
+      "name": "Summarize Articles",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.7,
+      "position": [
+        1260,
+        1720
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "PI7dqswJpx1Asynn",
+          "name": "OpenAi account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Search Internet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenWeather": {
+      "main": [
+        [
+          {
+            "node": "Describe Weather",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Describe Weather": {
+      "main": [
+        [
+          {
+            "node": "Weather",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Internet": {
+      "main": [
+        [
+          {
+            "node": "Summarize Articles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize Articles": {
+      "main": [
+        [
+          {
+            "node": "Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "3da50de2-7185-4d9b-aa0d-d4591e95caae",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "95e5a8c2e51c83e33b232ea792bbe3f063c094c33d9806a5565cb31759e1ad39"
+  },
+  "id": "dLaRc0B6BSo3THOl",
+  "tags": []
+}

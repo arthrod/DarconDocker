@@ -1,0 +1,87 @@
+{
+  "name": "echo-ai",
+  "displayName": "Echo-Ai",
+  "description": "Embed a Streamlit app in VS Code for tool calling and code generation.",
+  "version": "0.0.1",
+  "publisher": "codeium",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Codeium/echo-ai.git"
+  },
+  "icon": "media/icon.png",
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "echo-ai.openStreamlit",
+        "title": "Echo-Ai: Open Streamlit"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "echo-ai.openStreamlit",
+        "key": "ctrl+shift+p",
+        "mac": "cmd+shift+p",
+        "when": "editorTextFocus"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "echo-ai-sidebar",
+          "title": "Echo-Ai",
+          "icon": "media/icon.png"
+        }
+      ]
+    },
+    "views": {
+      "echo-ai-sidebar": [
+        {
+          "id": "echo-ai-view",
+          "name": "Echo-Ai",
+          "type": "webview"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@types/node-fetch": "^2.6.12",
+    "@types/vscode": "^1.96.0",
+    "@typescript-eslint/eslint-plugin": "^8.17.0",
+    "@typescript-eslint/parser": "^8.17.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.16.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.7.2",
+    "webpack": "^5.95.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}

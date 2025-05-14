@@ -1,0 +1,8 @@
+openai
+tiktoken
+supabase
+python-dotenv
+logfire
+httpx
+pydantic-ai
+streamlit

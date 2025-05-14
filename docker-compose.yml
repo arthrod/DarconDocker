@@ -1,0 +1,167 @@
+version: '3.8'
+
+################################################################################
+# Shared network and volume
+################################################################################
+networks:
+  mightrag-net:
+    driver: bridge
+
+volumes:
+  shared-ssh:
+    driver: local
+  langfuse-db-data:
+
+services:
+  #-----------------------------------------------------------------------------
+  # 1) browser-use
+  #-----------------------------------------------------------------------------
+  browser-use:
+    image: mightrag-agent-base:latest
+    container_name: rag-browser-use
+    restart: unless-stopped
+    networks:
+      - mightrag-net
+    volumes:
+      - shared-ssh:/home/rag/.ssh:ro
+    environment:
+      AGENT_NAME:    "browser-use"
+      SYSTEM_PROMPT: "You are a web‐crawling assistant that fetches and summarizes pages."
+      REPO_URL:      "git@github.com:my-org/browser-use.git"
+      MCP_PORT:      "8080"
+    ports:
+      - "8081:8080"
+
+  #-----------------------------------------------------------------------------
+  # 2) HallNo
+  #-----------------------------------------------------------------------------
+  hallno:
+    image: mightrag-agent-base:latest
+    container_name: rag-hallno
+    restart: unless-stopped
+    networks:
+      - mightrag-net
+    volumes:
+      - shared-ssh:/home/rag/.ssh:ro
+    environment:
+      AGENT_NAME:    "hallno"
+      SYSTEM_PROMPT: "You are the HallNo assistant—specialized in HallNo workflows."
+      REPO_URL:      "git@github.com:my-org/hallno.git"
+      MCP_PORT:      "8080"
+    ports:
+      - "8082:8080"
+
+  #-----------------------------------------------------------------------------
+  # 3) Claude-Squad
+  #-----------------------------------------------------------------------------
+  claude-squad:
+    image: mightrag-agent-base:latest
+    container_name: rag-claude-squad
+    restart: unless-stopped
+    networks:
+      - mightrag-net
+    volumes:
+      - shared-ssh:/home/rag/.ssh:ro
+    environment:
+      AGENT_NAME:    "claude-squad"
+      SYSTEM_PROMPT: "You are Claude-Squad—expert in Claude-family LLM interactions."
+      REPO_URL:      "git@github.com:my-org/claude-squad.git"
+      MCP_PORT:      "8080"
+    ports:
+      - "8083:8080"
+
+  #-----------------------------------------------------------------------------
+  # 4) YoutubeTool
+  #-----------------------------------------------------------------------------
+  youtube-tool:
+    image: mightrag-agent-base:latest
+    container_name: rag-youtube-tool
+    restart: unless-stopped
+    networks:
+      - mightrag-net
+    volumes:
+      - shared-ssh:/home/rag/.ssh:ro
+    environment:
+      AGENT_NAME:    "youtube-tool"
+      SYSTEM_PROMPT: "You are a YouTube assistant that downloads and summarizes videos."
+      REPO_URL:      "git@github.com:my-org/youtube-tool.git"
+      MCP_PORT:      "8080"
+    ports:
+      - "8084:8080"
+
+  #-----------------------------------------------------------------------------
+  # 5) GithubTool
+  #-----------------------------------------------------------------------------
+  github-tool:
+    image: mightrag-agent-base:latest
+    container_name: rag-github-tool
+    restart: unless-stopped
+    networks:
+      - mightrag-net
+    volumes:
+      - shared-ssh:/home/rag/.ssh:ro
+    environment:
+      AGENT_NAME:    "github-tool"
+      SYSTEM_PROMPT: "You are a GitHub researcher—analyze code, issues, PRs."
+      REPO_URL:      "git@github.com:my-org/github-tool.git"
+      MCP_PORT:      "8080"
+    ports:
+      - "8085:8080"
+
+  #-----------------------------------------------------------------------------
+  # 6) Gpt-Researcher
+  #-----------------------------------------------------------------------------
+  gpt-researcher:
+    image: mightrag-agent-base:latest
+    container_name: rag-gpt-researcher
+    restart: unless-stopped
+    networks:
+      - mightrag-net
+    volumes:
+      - shared-ssh:/home/rag/.ssh:ro
+    environment:
+      AGENT_NAME:    "gpt-researcher"
+      SYSTEM_PROMPT: "You are GPT-Researcher—expert in orchestrating GPT calls over docs."
+      REPO_URL:      "git@github.com:my-org/gpt-researcher.git"
+      MCP_PORT:      "8080"
+    ports:
+      - "8086:8080"
+
+  #-----------------------------------------------------------------------------
+  # 7) Taskmaster
+  #-----------------------------------------------------------------------------
+  taskmaster:
+    image: mightrag-agent-base:latest
+    container_name: rag-taskmaster
+    restart: unless-stopped
+    networks:
+      - mightrag-net
+    volumes:
+      - shared-ssh:/home/rag/.ssh:ro
+    environment:
+      AGENT_NAME:    "taskmaster"
+      SYSTEM_PROMPT: "You are Taskmaster—manage scheduling, reminders, and tasks."
+      REPO_URL:      "git@github.com:my-org/taskmaster.git"
+      MCP_PORT:      "8080"
+    ports:
+      - "8087:8080"
+
+  #-----------------------------------------------------------------------------
+  # 8) Docker Sandbox MightRAG
+  #-----------------------------------------------------------------------------
+  docker-sandbox:
+    image: mightrag-agent-base:latest
+    container_name: rag-docker-sandbox
+    restart: unless-stopped
+    networks:
+      - mightrag-net
+    volumes:
+      - shared-ssh:/home/rag/.ssh:ro
+    environment:
+      AGENT_NAME:    "docker-sandbox"
+      SYSTEM_PROMPT: "You are the Docker Sandbox agent—experiment with arbitrary Docker tasks."
+      REPO_URL:      "git@github.com:my-org/docker-sandbox.git"
+      MCP_PORT:      "8080"
+    ports:
+      - "8088:8080"
+      

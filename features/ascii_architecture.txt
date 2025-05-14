@@ -1,0 +1,157 @@
+================================================================================
+MCP RAG ARMY: SYSTEM ARCHITECTURE, PROTOCOLS, AND ONBOARDING FLOW (ASCII ART)
+================================================================================
+
+LEGEND:
+[ ] = Process Step or Component
+--> = Communication or Transition
+---- = Detail/Description
+
+
+1. HIGH-LEVEL SYSTEM FLOW
+-------------------------
+
+[User]
+  |
+  v
+[Onboarding Interface]
+  |--- Streamlit Chat / CLI Config
+  v
+[Onboarding Core Logic]
+  |--- Shared Python module (repo discovery, RAG, config, file gen)
+  v
+[File System]
+  |--- docker_repos/, features/, docker-compose.yml, .env, agent_card.json
+  v
+[Docker Compose]
+  |--- Builds/launches containers
+  v
+[Docker Network]
+  |--- All agents + orchestrator on shared network
+  v
+[Orchestrator (MCP Server)]
+  |--- Discovers agents, reads agent cards, registers agents
+  v
+[Unified Endpoint]
+  |--- User/API requests routed to correct agent(s)
+
+
+2. ONBOARDING FLOW (DETAILED)
+-----------------------------
+
+[Start]
+  |
+  v
+[Repo Discovery]
+  |--- Scan docker_repos/ or prompt for URLs
+  v
+[Auto-Clone (if needed)]
+  |
+  v
+[RAG Analysis]
+  |--- Analyze repo structure, extract Dockerfile, .env.example, agent card
+  v
+[Interactive Questionnaire]
+  |--- Network name, Agent name, Port, System prompt, A2A card, Repo selection
+  |--- For each .env.example: extract variables, prompt for secrets/keys
+  v
+[Config Generation]
+  |--- Write docker-compose.yml, agent configs, .env files
+  v
+[Container Build & Launch]
+  |--- docker-compose up --build
+  v
+[Orchestrator Discovery]
+  |--- MCP server scans Docker network, reads agent cards
+  v
+[Agent Registration]
+  |--- Agents registered and available for orchestration/A2A
+  v
+[Ready for Use]
+
+
+3. COMMUNICATION PROTOCOLS
+--------------------------
+
+[Orchestrator] <--> [Agent]
+  |--- HTTP (FastAPI endpoints)
+  |--- MCP Protocol: standardized JSON messages
+  |--- A2A Protocol: agent-to-agent messaging via orchestrator or direct
+
+[Agent Card]
+  |--- JSON metadata (capabilities, endpoints, description)
+  |--- Served via HTTP endpoint or static file
+
+
+4. ASCII FLOWCHART (ONBOARDING)
+--------------------------------
+
++-------------------+
+|    Start          |
++-------------------+
+         |
+         v
++-------------------+
+| Repo Discovery    |
++-------------------+
+         |
+         v
++-------------------+
+|  RAG Analysis     |
++-------------------+
+         |
+         v
++-------------------+
+|  Questionnaire    |
++-------------------+
+         |
+         v
++-------------------+
+| Config Generation |
++-------------------+
+         |
+         v
++-------------------+
+| Build & Launch    |
++-------------------+
+         |
+         v
++-------------------+
+| Orchestrator Disc |
++-------------------+
+         |
+         v
++-------------------+
+| Agent Registered  |
++-------------------+
+         |
+         v
++-------------------+
+| Agent Test Prompt |
++-------------------+
+         |
+         v
++-------------------+
+| Agent Benchmark   |
++-------------------+
+         |
+         v
++-------------------+
+|  Ready for Use    |
++-------------------+
+
+
+================================================================================
+NOTES:
+- All onboarding interfaces (Streamlit, CLI) use the same backend logic.
+- All configs and onboarding steps are version-controlled for reproducibility.
+- Orchestrator dynamically discovers and registers agents via agent card metadata.
+- After agent registration, the orchestrator sends a test prompt to each new agent. The agent's response is displayed to the user, confirming the agent is live and ready for commands.
+- The orchestrator then benchmarks the new agent (latency, correctness, resource usage). Results and a final 'Agent is ready' message are shown to the user upon success.
+- Communication uses HTTP/JSON via standardized FastAPI /invoke endpoints for all agents/tools (generic wrapper pattern).
+- Agent logic is loaded dynamically at runtime via AGENT_GRAPH_PATH for plug-in modularity.
+- Agent conference graph enables all-way agent communication and aggregation.
+- docker-compose.yml is the authoritative registry for all agents/tools.
+- Memory bank and onboarding flows are always updated to reflect new agents and workflows.
+- Minimal manual steps: user only provides secrets/keys and approves config.
+================================================================================

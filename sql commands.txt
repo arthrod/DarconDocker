@@ -1,0 +1,19 @@
+# List all tables in the current database
+SELECT table_name
+FROM information_schema.tables
+WHERE table_schema = 'github';
+
+
+SELECT column_name, data_type, is_nullable, column_default
+FROM information_schema.columns
+WHERE table_name = 'youtube';
+
+
+SELECT column_name, data_type, is_nullable, column_default
+FROM information_schema.columns
+WHERE table_name = 'crawled_pages';
+
+
+SELECT DISTINCT source
+FROM youtube
+ORDER BY source ASC;
