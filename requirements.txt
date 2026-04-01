@@ -124,7 +124,7 @@ pydeck==0.9.1
 pyee==12.0.0
 Pygments==2.19.1
 PyJWT==2.10.1
-pyOpenSSL==24.3.0
+pyOpenSSL==26.0.0
 pytest==8.3.4
 pytest-mockito==0.0.4
 psycopg2-binary==2.9.6
