@@ -129,7 +129,7 @@ pytest==8.3.4
 pytest-mockito==0.0.4
 psycopg2-binary==2.9.6
 python-dateutil==2.9.0.post0
-python-dotenv==1.0.1
+python-dotenv==1.2.2
 python-multipart==0.0.20
 pytz==2024.2
 PyYAML==6.0.2
