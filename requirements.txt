@@ -84,7 +84,7 @@ mcp==1.2.1
 mdurl==0.1.2
 mistralai==1.2.6
 mockito==1.5.3
-msgpack==1.1.0
+msgpack==1.2.1
 multidict==6.1.0
 mypy-extensions==1.0.0
 nest_asyncio==1.5.8
